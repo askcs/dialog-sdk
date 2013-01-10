@@ -18,17 +18,17 @@ public class QuestionBuilder {
 		if(question.getQuestion_id()==null || question.getQuestion_id().equals(""))
 			return res;
 		
-		if(question.getQuestion_text()==null || question.getQuestion_text().equals(""))
+		if(!question.getType().equals(Question.QUESTION_TYPE_REFERRAL) && (question.getQuestion_text()==null || question.getQuestion_text().equals("")))
 			return res;
 		
 		String question_url = url+"/questions/";
 		question.setBase_url(url);
 		question.setQuestion_url(question_url+question.getQuestion_id());
-		if(question.getQuestion_text().endsWith(".wav")) {
+		if(question.getQuestion_text().equals("") || question.getQuestion_text().endsWith(".wav")) {
 			if(question.getAnswers()!=null) {
 				for(Answer answer : question.getAnswers()) {
 
-					if(answer.getCallback()!=null)
+					if(answer.getCallback()!=null && !answer.getCallback().equals(""))
 						answer.setCallback(question_url+answer.getCallback());
 				}
 			}
