@@ -12,7 +12,7 @@ public class QuestionBuilder {
 	
 	static final Logger log = Logger.getLogger(QuestionBuilder.class.getName());
 
-	public static String build(Question question, String url) {
+	public static String build(Question question, String url, String responder) {
 		
 		String res="{}";
 		if(question.getQuestion_id()==null || question.getQuestion_id().equals(""))
@@ -28,8 +28,13 @@ public class QuestionBuilder {
 			if(question.getAnswers()!=null) {
 				for(Answer answer : question.getAnswers()) {
 
-					if(answer.getCallback()!=null && !answer.getCallback().equals(""))
+					if(answer.getCallback()!=null && !answer.getCallback().equals("")) {
 						answer.setCallback(question_url+answer.getCallback());
+					
+						if(responder!=null) {
+							answer.setCallback(answer.getCallback()+"?responder="+responder);
+						}
+					}
 				}
 			}
 		} else {
@@ -39,10 +44,24 @@ public class QuestionBuilder {
 			if(question.getAnswers()!=null) {
 				for(Answer answer : question.getAnswers()) {
 					
-					answer.setAnswer_expandedtext(answer.getAnswer_text());
-					answer.setAnswer_text("text://"+answer.getAnswer_text());
-					if(answer.getCallback()!=null)
+					String answerText = answer.getAnswer_text(); 					
+					answer.setAnswer_expandedtext(answerText);
+					answer.setAnswer_text("text://"+answerText);
+					if(answer.getCallback()!=null) {
 						answer.setCallback(question_url+answer.getCallback());
+						
+						String qs = "?";
+						if(responder!=null) {
+							answer.setCallback(answer.getCallback()+qs+"responder="+responder);
+							qs="&";
+						}
+					
+						if(question.getType().equals("closed")) {
+							answer.setCallback(answer.getCallback()+qs+"value="+answerText);
+						}
+						
+						
+					}
 				}
 			}
 		}

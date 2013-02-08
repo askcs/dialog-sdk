@@ -6,10 +6,19 @@ import com.askcs.dialog.sdk.model.intf.EventCallbackIntf;
 public class EventCallback implements EventCallbackIntf {
 	private static final long serialVersionUID = -2431456288188062707L;
 
+	public static final String EVENT_TYPE_TIMEOUT = "timeout";
+	public static final String EVENT_TYPE_EXCEPTION = "exception";
+	public static final String EVENT_TYPE_HANGUP = "hangup";
+	
 	EventCallbackIntf eventCallback;
 	
 	public EventCallback() {
 		this.eventCallback = new E_fields();
+	}
+	public EventCallback(String event, String callback) {
+		this.eventCallback = new E_fields();
+		this.eventCallback.setEvent(event);
+		this.eventCallback.setCallback(callback);
 	}
 	@Override
 	public String getEvent_id() { return eventCallback.getEvent_id(); }
