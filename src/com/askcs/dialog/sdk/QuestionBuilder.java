@@ -17,7 +17,8 @@ public class QuestionBuilder {
 	@Deprecated
 	public static String build(Question question, String url, String responder) {
 		HashMap<String, String> params = new HashMap<String, String>();
-		params.put("responder",responder);
+		if(responder!=null)
+			params.put("responder",responder);
 		
 		return build(question, url, params);
 	}
