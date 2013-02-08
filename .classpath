@@ -2,9 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="/DialogHandler/war/WEB-INF/lib/jackson-core-2.0.0.jar"/>
-	<classpathentry kind="lib" path="/DialogHandler/war/WEB-INF/lib/jackson-annotations-2.0.0.jar"/>
-	<classpathentry kind="lib" path="/DialogHandler/war/WEB-INF/lib/twig-persist-2.0-beta4.jar"/>
-	<classpathentry kind="lib" path="/DialogHandler/war/WEB-INF/lib/jackson-databind-2.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-annotations-2.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-core-2.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-databind-2.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/twig-persist-2.0-beta4.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

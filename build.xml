@@ -3,12 +3,11 @@
 <project name="dialog-sdk" default="makejar" basedir=".">
 	<!-- the version number of must be updated here (according to changelog.txt) -->
 	<property name="package" value="dialog-sdk"/>
-	<property name="version" value="1.0.1"/>
+	<property name="version" value="1.0.2"/>
 	
   <target name="makejar" description="Create a jar library">
     <property name="localbin" location="bin" />
-    
-    <mkdir dir="${localbin}" />
+    <property name="localversions" location="${localbin}/versions" />
     
     <!-- create jar and overwrite old one -->
     <jar destfile="${localbin}/${package}-temp.jar" >
@@ -18,7 +17,7 @@
     	<fileset dir="src/" />
     </jar>
   	<move file="${localbin}/${package}-temp.jar" tofile="${localbin}/${package}.jar" />
-  	<copy file="${localbin}/${package}.jar" tofile="${localbin}/${package}-${version}.jar" />
+  	<copy file="${localbin}/${package}.jar" tofile="${localversions}/${package}-${version}.jar" />
   	
   </target>
 </project>
