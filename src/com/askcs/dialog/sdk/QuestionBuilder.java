@@ -14,16 +14,24 @@ public class QuestionBuilder {
 	
 	static final Logger log = Logger.getLogger(QuestionBuilder.class.getName());
 	
+	public static String build(Question question, String url, String preferred_medium, String responder) {
+		HashMap<String, String> params = new HashMap<String, String>();
+		if(responder!=null)
+			params.put("responder",responder);
+		
+		return build(question, url, preferred_medium, params);
+	}
+	
 	@Deprecated
 	public static String build(Question question, String url, String responder) {
 		HashMap<String, String> params = new HashMap<String, String>();
 		if(responder!=null)
 			params.put("responder",responder);
 		
-		return build(question, url, params);
+		return build(question, url, null, params);
 	}
 
-	public static String build(Question question, String url, HashMap<String, String> params) {
+	public static String build(Question question, String url, String preferred_medium, HashMap<String, String> params) {
 		
 		String res="{}";
 		if(question.getQuestion_id()==null || question.getQuestion_id().equals(""))
@@ -31,6 +39,9 @@ public class QuestionBuilder {
 		
 		if(!question.getType().equals(Question.QUESTION_TYPE_REFERRAL) && (question.getQuestion_text()==null || question.getQuestion_text().equals("")))
 			return res;
+		
+		if(preferred_medium==null)
+			preferred_medium="";
 		
 		String question_url = url+"/questions/";
 		question.setBase_url(url);
@@ -40,10 +51,10 @@ public class QuestionBuilder {
 				for(Answer answer : question.getAnswers()) {
 
 					if(answer.getCallback()!=null && !answer.getCallback().equals("")) {
-						answer.setCallback(question_url+answer.getCallback());
-					
+						answer.setCallback(question_url+answer.getCallback()+"?preferred_medium="+preferred_medium);
+						
 						if(params!=null && !params.isEmpty()) {
-							answer.setCallback(answer.getCallback()+"?"+HashMapToQuery(params));
+							answer.setCallback(answer.getCallback()+"&"+HashMapToQuery(params));
 						}
 					}
 				}
@@ -59,16 +70,14 @@ public class QuestionBuilder {
 					answer.setAnswer_expandedtext(answerText);
 					answer.setAnswer_text("text://"+answerText);
 					if(answer.getCallback()!=null) {
-						answer.setCallback(question_url+answer.getCallback());
+						answer.setCallback(question_url+answer.getCallback()+"?preferred_medium="+preferred_medium);
 						
-						String qs = "?";
 						if(params!=null && !params.isEmpty()) {
-							answer.setCallback(answer.getCallback()+qs+HashMapToQuery(params));
-							qs="&";
+							answer.setCallback(answer.getCallback()+"&"+HashMapToQuery(params));
 						}
 					
 						if(question.getType().equals("closed")) {
-							answer.setCallback(answer.getCallback()+qs+"value="+answerText);
+							answer.setCallback(answer.getCallback()+"&value="+answerText);
 						}
 						
 						
